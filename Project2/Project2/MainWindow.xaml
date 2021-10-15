@@ -22,6 +22,14 @@
         </Grid.RowDefinitions>
 
         <Image Grid.RowSpan="6" Grid.ColumnSpan="3" Name="img" ></Image>
+        <ComboBox Name="combo" VerticalAlignment="Center" FontSize="20" Width="180" Height="40" Grid.Column="2" Grid.Row="3" Margin="10,10,0,0">
+            <ComboBoxItem Content="10"></ComboBoxItem>
+            <ComboBoxItem Content="25"></ComboBoxItem>
+            <ComboBoxItem Content="50"></ComboBoxItem>
+            <ComboBoxItem Content="75"></ComboBoxItem>
+            <ComboBoxItem Content="100"></ComboBoxItem>
+        </ComboBox>
+        <Button FontSize="20" Width="130" Height="50" Grid.Column="2" Grid.Row="4" Click="saveFile">Zapisz plik</Button>
         <Button FontSize="20" Width="130" Height="50" Grid.Column="2" Grid.Row="5" Click="chooseFile">Wybierz plik</Button>
     </Grid>
 </Window>
