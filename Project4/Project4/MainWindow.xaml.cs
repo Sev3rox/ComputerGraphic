@@ -328,13 +328,17 @@ namespace Project4
             if (bitmap2 != null)
             {
                 this.Reset();
-
                 var name = ((Button)sender).Name;
                 var bitmap = new Bitmap((int)bitmap2.Width, (int)bitmap2.Height);
                 var helpbitmap = BitmapImage2Bitmap(bitmap2);
 
                 if (name == "Filtr1Btn")
                 {
+                    int[,] mask = new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }; //change mask here
+                    Mask.Content = mask[0, 0] + " " + mask[0, 1] + " " + mask[0, 2] + " " + "\n"
+                             + mask[1, 0] + " " + mask[1, 1] + " " + mask[1, 2] + " " + "\n"
+                             + mask[2, 0] + " " + mask[2, 1] + " " + mask[2, 2] + " " + "\n";
+
                     for (int x = 1; x < (int)bitmap2.Width - 1; x++)
                     {
                         for (int y = 1; y < (int)bitmap2.Height - 1; y++)
@@ -348,20 +352,11 @@ namespace Project4
                                 for (int j = -1; j < 2; j++)
                                 {
                                     System.Drawing.Color PixelColor = helpbitmap.GetPixel(x + i, y + j);
-                                    r += PixelColor.R;
-                                    g += PixelColor.G;
-                                    b += PixelColor.B;
+                                    r += PixelColor.R * mask[i+1, j + 1];
+                                    g += PixelColor.G * mask[i + 1, j + 1];
+                                    b += PixelColor.B * mask[i + 1, j + 1];
                                 }
                             }
-                            /*
-                                  for (int i = -1; i < 2; i++)
-                                  {
-                                      for (int j = -1; j < 2; j++)
-                                      {
-                                          bitmap.SetPixel(x+i, y+j, System.Drawing.Color.FromArgb(r/9, g/9, b/9));
-                                      }
-                                  }
-                            */
 
                             bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(r / 9, g / 9, b / 9));
 
@@ -370,6 +365,11 @@ namespace Project4
                 }
                 else if (name == "Filtr2Btn")
                 {
+                    int[,] mask = new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };  //change mask here
+                    Mask.Content = mask[0,0]+" "+ mask[0, 1] + " " + mask[0, 2] + " " +"\n"
+                             + mask[1, 0] + " " + mask[1, 1] + " " + mask[1, 2] + " " +"\n"
+                             + mask[2, 0] + " " + mask[2, 1] + " " + mask[2, 2] + " " + "\n";
+
                     for (int x = 1; x < (int)bitmap2.Width - 1; x++)
                     {
                         for (int y = 1; y < (int)bitmap2.Height - 1; y++)
@@ -383,24 +383,15 @@ namespace Project4
                                 for (int j = -1; j < 2; j++)
                                 {
                                     System.Drawing.Color PixelColor = helpbitmap.GetPixel(x + i, y + j);
-                                    r.Add(PixelColor.R);
-                                    g.Add(PixelColor.G);
-                                    b.Add(PixelColor.B);
+                                    r.Add(PixelColor.R * mask[i + 1, j + 1]);
+                                    g.Add(PixelColor.G * mask[i + 1, j + 1]);
+                                    b.Add(PixelColor.B * mask[i + 1, j + 1]);
                                 }
                             }
 
                             r.Sort();
                             g.Sort();
                             b.Sort();
-
-                            /*      for (int i = -1; i < 2; i++)
-                                  {
-                                      for (int j = -1; j < 2; j++)
-                                      {
-                                          bitmap.SetPixel(x+i, y+j, System.Drawing.Color.FromArgb(r[4], g[4], b[4]));
-                                      }
-                                  }
-                            */
 
                             bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(r[4], g[4], b[4]));
                         }
@@ -416,8 +407,13 @@ namespace Project4
 
                     BitmapData bmpData = helpbitmap.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, helpbitmap.PixelFormat);
                     int position;
-                    int[,] gx = new int[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
-                    int[,] gy = new int[,] { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
+                    int[,] maskx = new int[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } }; //change masks here
+                    int[,] masky = new int[,] { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
+
+                    Mask.Content = maskx[0,0]+" "+ maskx[0, 1] + " " + maskx[0, 2] + "     " + masky[0, 0] + " " + masky[0, 1] + " " + masky[0, 2] + "\n"
+                             + maskx[1, 0] + " " + maskx[1, 1] + " " + maskx[1, 2] + "     " + masky[1, 0] + " " + masky[1, 1] + " " + masky[1, 2] + "\n"
+                             + maskx[2, 0] + " " + maskx[2, 1] + " " + maskx[2, 2] + "     " + masky[2, 0] + " " + masky[2, 1] + " " + masky[2, 2] + "\n";
+
                     byte Threshold = 128;
 
                     Bitmap dstBmp = new Bitmap(width, height, helpbitmap.PixelFormat);
@@ -441,8 +437,8 @@ namespace Project4
                                         int I = i + ii - 1;
                                         int J = j + jj - 1;
                                         byte Current = *(ptr + (I * width + J) * OneColorBits);
-                                        NewX += gx[ii, jj] * Current;
-                                        NewY += gy[ii, jj] * Current;
+                                        NewX += maskx[ii, jj] * Current;
+                                        NewY += masky[ii, jj] * Current;
                                     }
                                 }
                                 position = ((i * width + j) * OneColorBits);
@@ -468,8 +464,12 @@ namespace Project4
 
                     BitmapData bmpData = helpbitmap.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, helpbitmap.PixelFormat);
                     int position;
-                    int[,] gx = new int[,] { { -1, -1, -1 }, { -1, 9, -1 }, { -1, -1, -1 } };
+                    int[,] mask = new int[,] { { -1, -1, -1 }, { -1, 9, -1 }, { -1, -1, -1 } }; //change mask here
                     byte Threshold = 128;
+
+                    Mask.Content = mask[0,0]+" "+ mask[0, 1] + " " + mask[0, 2] + " " +"\n"
+                             + mask[1, 0] + " " + mask[1, 1] + " " + mask[1, 2] + " " +"\n"
+                             + mask[2, 0] + " " + mask[2, 1] + " " + mask[2, 2] + " " + "\n";
 
                     Bitmap dstBmp = new Bitmap(width, height, helpbitmap.PixelFormat);
                     BitmapData dstData = dstBmp.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, dstBmp.PixelFormat);
@@ -483,7 +483,7 @@ namespace Project4
                         {
                             for (int j = 1; j < width - 1; j++)
                             {
-                                int NewX = 0, NewY = 0;
+                                int NewX = 0;
 
                                 for (int ii = 0; ii < 3; ii++)
                                 {
@@ -492,11 +492,11 @@ namespace Project4
                                         int I = i + ii - 1;
                                         int J = j + jj - 1;
                                         byte Current = *(ptr + (I * width + J) * OneColorBits);
-                                        NewX += gx[ii, jj] * Current;
+                                        NewX += mask[ii, jj] * Current;
                                     }
                                 }
                                 position = ((i * width + j) * OneColorBits);
-                                if (NewX * NewX + NewY * NewY > Threshold * Threshold)
+                                if (NewX * NewX> Threshold * Threshold)
                                     dst[position] = dst[position + 1] = dst[position + 2] = 255;
                                 else
                                     dst[position] = dst[position + 1] = dst[position + 2] = 0;
@@ -510,6 +510,11 @@ namespace Project4
                 }
                 else if (name == "Filtr5Btn")
                 {
+                    int[,] mask = new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };  //change mask here
+                    Mask.Content = mask[0, 0] + " " + mask[0, 1] + " " + mask[0, 2] + " " + "\n"
+                             + mask[1, 0] + " " + mask[1, 1] + " " + mask[1, 2] + " " + "\n"
+                             + mask[2, 0] + " " + mask[2, 1] + " " + mask[2, 2] + " " + "\n";
+
                     for (int x = 2; x < (int)bitmap2.Width - 2; x++)
                     {
                         for (int y = 2; y < (int)bitmap2.Height - 2; y++)
@@ -520,19 +525,18 @@ namespace Project4
                             System.Drawing.Color prevy = helpbitmap.GetPixel(x, y-2);
                             System.Drawing.Color nexty = helpbitmap.GetPixel(x, y+2);
 
-                            int avgR = (int)((prevx.R + nextx.R + prevy.R + nexty.R) / 4);
-                            int avgG = (int)((prevx.G + nextx.G + prevy.G + nexty.G) / 4);
-                            int avgB = (int)((prevx.B + nextx.B + prevy.B + nexty.B) / 4);
+                            int avgR = (int)((prevx.R * mask[0, 1] + nextx.R * mask[2, 1] + prevy.R * mask[1, 0] + nexty.R * mask[1, 2]) / 4);
+                            int avgG = (int)((prevx.G * mask[0, 1] + nextx.G * mask[2, 1] + prevy.G * mask[1, 0] + nexty.G * mask[1, 2]) / 4);
+                            int avgB = (int)((prevx.B * mask[0, 1] + nextx.B * mask[2, 1] + prevy.B * mask[1, 0] + nexty.B * mask[1, 2]) / 4);
 
 
                             bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(avgR, avgG, avgB));
                         }
                     }
-
-                    this.BitmapToImageSource(bitmap);
                 }
+                this.BitmapToImageSource(bitmap);
             }
-        }
+        }  
 
         public void resetColor()
         {
@@ -570,6 +574,7 @@ namespace Project4
 
         private void Reset()
         {
+            Mask.Content = "";
             bitmap2 = bithelp;
             img.Source = bitmap2;
             this.img.Width = bitmap2.Width;

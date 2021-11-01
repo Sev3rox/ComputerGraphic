@@ -58,6 +58,8 @@
                 <Button Name="Gray2Btn" VerticalAlignment="Top" FontSize="24" Content="Gray 2" Click="Operation"  Width="110" Height="40" Margin="10"></Button>
             </StackPanel>
         </StackPanel>
+
+        <Label Name="Mask" FontSize="32" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
         
         <Image Grid.RowSpan="6" Grid.ColumnSpan="1" Grid.Column="1" Name="img" ></Image>
         <Button FontSize="20" Width="130" Height="50" Grid.Column="3" Grid.Row="5" Click="chooseFile">Wybierz plik</Button>
