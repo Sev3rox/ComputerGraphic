@@ -1,0 +1,40 @@
+﻿<Window x:Class="Project5.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project5"
+        mc:Ignorable="d"
+         Title="MainWindow" Height="700" Width="1050">
+    <Grid Background="DarkBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+        <Label FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Name="txt"></Label>
+        
+
+        <StackPanel Grid.Column="3" Grid.Row="2" Grid.RowSpan="3" HorizontalAlignment="Center">
+            <Button Name="bin1" VerticalAlignment="Top" FontSize="24" Content="Dylatacja" Click="Bin" Width="130" Height="40" Margin="10"></Button>
+            <Button Name="bin2" VerticalAlignment="Top" FontSize="24" Content="Erozja" Click="Bin" Width="130" Height="40" Margin="10"></Button>
+            <Button Name="bin3" VerticalAlignment="Top" FontSize="24" Content="Otwarcie" Click="Bin" Width="130" Height="40" Margin="10"></Button>
+            <Button Name="bin4" VerticalAlignment="Top" FontSize="24" Content="Domkniecie" Click="Bin" Width="130" Height="40" Margin="10"></Button>
+            <Button Name="bin5" VerticalAlignment="Top" FontSize="24" Content="HitOrMiss" Click="Bin" Width="130" Height="40" Margin="10"></Button>
+        </StackPanel>
+
+        <Image Grid.RowSpan="6" Grid.ColumnSpan="2" Grid.Column="0" Name="img" ></Image>
+        <Button FontSize="20" Width="130" Height="50" Grid.Column="3" Grid.Row="5" Click="chooseFile">Wybierz plik</Button>
+    </Grid>
+</Window>
+
